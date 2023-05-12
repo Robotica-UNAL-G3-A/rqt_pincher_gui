@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="p1">
+  <widget class="QPushButton" name="joint1Button">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -26,7 +26,7 @@
     <string>Position 1</string>
    </property>
   </widget>
-   <widget class="QPushButton" name="p2">
+   <widget class="QPushButton" name="joint2Button">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -39,6 +39,106 @@
     <string>Position 2</string>
    </property>
   </widget>
+  
+   <widget class="QPushButton" name="joint3Button">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>130</y>
+     <width>98</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Position 3</string>
+   </property>
+  </widget>
+  
+   <widget class="QPushButton" name="joint4Button">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>160</y>
+     <width>98</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Position 4</string>
+   </property>
+  </widget>
+  
+   <widget class="QPushButton" name="joint5Button">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>190</y>
+     <width>98</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Position 5</string>
+   </property>
+  </widget>
+    <!---
+  New 
+  -->
+  <widget class="QLabel" name="Info-title">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>10</y>
+     <width>430</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Universidad Nacional de Colombia Laboratorio de Robotica</string>
+   </property>
+  </widget>
+  
+  <widget class="QLabel" name="Info-members">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>30</y>
+     <width>430</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sebastian Dueñas</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="jointDisplay">
+  <!-- <property name="rich text"></property>
+  -->
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>75</y>
+     <width>400</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>q1  q2 q3 q4 q5 </string>
+   </property>
+  </widget>
+   <widget class="QLabel" name="posDisplay">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>90</y>
+     <width>400</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>x y z theta </string>
+   </property>
+  </widget>  
  </widget>
  <resources/>
  <connections/>
