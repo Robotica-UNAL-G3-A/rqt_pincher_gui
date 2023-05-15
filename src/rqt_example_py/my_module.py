@@ -36,7 +36,7 @@ class MyPlugin(Plugin):
         self._widget = QWidget()
         # Get path to UI file which is a sibling of this file
         # in this example the .ui and .py file are in the same folder
-        ui_file = os.path.join(rp.get_path('rqt_example_py'), 'resource', 'MyPlugin.ui')
+        ui_file = os.path.join(rp.get_path('rqt_pincher_gui'), 'resource', 'MyPlugin.ui')
         # Extend the widget with all attributes and children from UI file
         loadUi(ui_file, self._widget)
 

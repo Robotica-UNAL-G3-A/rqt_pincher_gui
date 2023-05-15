@@ -2,9 +2,9 @@
 
 import sys
 
-from rqt_example_py.my_module import MyPlugin
+from rqt_pincher_gui.my_module import MyPlugin
 from rqt_gui.main import Main
 
-plugin = 'rqt_example_py'
+plugin = 'rqt__pincher_gui'
 main = Main(filename=plugin)
 sys.exit(main.main(standalone=plugin))
