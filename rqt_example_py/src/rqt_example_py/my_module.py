@@ -40,11 +40,14 @@ class MyPlugin(Plugin):
         # Extend the widget with all attributes and children from UI file
         loadUi(ui_file, self._widget)
 
-        self.Dynamixel_connected = False
+        self.Dynamixel_connected = True
 
         self._widget.joint1Button.clicked.connect(self.call_j1)
-        self._widget.joint2Button.clicked.connect(self.call_j2)
-        
+        self._widget.joint2Button.clicked.connect(self.call_j2)        
+        self._widget.joint3Button.clicked.connect(self.call_j3)
+        self._widget.joint4Button.clicked.connect(self.call_j4)
+        self._widget.joint5Button.clicked.connect(self.call_j5)
+
         self.pub = rospy.Publisher('/joint_trajectory', JointTrajectory, queue_size=10)
 
         self.subJointTrajectory =  rospy.Subscriber("/joint_trajectory", JointTrajectory, self.callbackJointTrajectory)
@@ -62,29 +65,32 @@ class MyPlugin(Plugin):
             self._widget.setWindowTitle(self._widget.windowTitle() + (' (%d)' % context.serial_number()))
         # Add widget to the user interface
         context.add_widget(self._widget)
-    def inverse_kinematics(q):
+    def inverse_kinematics(self,q):
         position = np.array([1,2,3])
         return position 
+    
     def callbackJointState(self,msg):
         
-        q = msg.position
+        q = np.round(np.array(msg.position)*180/pi,2)
         pos = self.inverse_kinematics(q)
 
         if self.Dynamixel_connected:    
             self._widget.jointDisplay.setText("qs:"+ str(q))   
-            self._widget.jposDisplay.setText("x: "+str(pos[0])+"  y: "+str(pos[1])+"  z: "+str(pos[3]))   
+            self._widget.posDisplay.setText("x y z theta")   
+        
+            #self._widget.posDisplay.setText("x: "+str(pos[0])+"  y: "+str(pos[1])+"  z: "+str(pos[2]))   
         
     def callbackJointTrajectory(self,msg):
         #print("Hello "+msg.points.pop())
 
         p = msg.points[0].positions
-        q= np.asarray(p)
+        q = np.round(np.array(msg.position)*180/pi,2)
         print("q "+ str(q))
         #pos = self.inverse_kinematics(q)
         pos = np.array([1,2,3])
         if not self.Dynamixel_connected:
-            self._widget.jointDisplay.setText("qs:"+ str(q))   
-            self._widget.posDisplay.setText("x: "+str(pos[0])+"  y: "+str(pos[1])+"  z: "+str(pos[2])) 
+            self._widget.jointDisplay.setText("qs:"+ str(q)  ) 
+            #self._widget.posDisplay.setText("x: "+str(pos[0])+"  y: "+str(pos[1])+"  z: "+str(pos[2])) 
             
 
     def callback_string(self, msg):
