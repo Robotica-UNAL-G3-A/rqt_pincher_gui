@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>1000</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -138,8 +138,10 @@
    <property name="text">
     <string>x y z theta </string>
    </property>
-  </widget>  
+  </widget> 
  </widget>
- <resources/>
+ <resources>
+  <include location="robot_poses.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,0 +1,173 @@
+{
+  "keys": {},
+  "groups": {
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'01d9d0cb00030000000000900000003600000d5f00000785000000900000008000000d5f0000078500000000000000000d60000000900000008000000d5f00000785')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "       6 _       _      `     _  "
+        },
+        "state": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000000fd000000010000000300000cd0000006b8fc0100000004fb00000052007200710074005f00700069006e0063006800650072005f006700750069005f005f004d007900200050006c007500670069006e005f005f0031005f005f004d00790050006c007500670069006e00550069010000000000000462000000bd00fffffffb00000052007200710074005f00700069006e0063006800650072005f006700750069005f005f004d007900200050006c007500670069006e005f005f0032005f005f004d00790050006c007500670069006e005500690100000b00000001d00000000000000000fb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0031005f005f0049006d006100670065005600690065007700570069006400670065007401000009b0000003200000000000000000fb00000026007200710074005f007200760069007a005f005f005200560069007a005f005f0031005f005f010000046e00000862000006dc00ffffff00000cd00000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "                 Rrqt_pincher_gui__My Plugin__1__MyPluginUi          Rrqt_pincher_gui__My Plugin__2__MyPluginUi          Zrqt_image_view__ImageView__1__ImageViewWidget          &rqt_rviz__RViz__1__                            6MinimizedDockWidgetsToolbar        "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "repr": "8",
+              "type": "repr"
+            }
+          },
+          "groups": {}
+        }
+      }
+    },
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "repr": "{'rqt_pincher_gui/My Plugin': [1], 'rqt_rviz/RViz': [1]}",
+          "type": "repr"
+        }
+      },
+      "groups": {
+        "plugin__rqt_example_py__My Plugin__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__MyPluginUi": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Form'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "'true'",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__1": {
+          "keys": {},
+          "groups": {
+            "plugin": {
+              "keys": {
+                "color_scheme": {
+                  "repr": "9",
+                  "type": "repr"
+                },
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "4",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "2",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "''",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_pincher_gui__My Plugin__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__MyPluginUi": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Form'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_rviz__RViz__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'default.rviz[*] - RViz'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "hide_menu": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rviz_config_file": {
+                  "repr": "'/opt/ros/noetic/share/rviz/default.rviz'",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

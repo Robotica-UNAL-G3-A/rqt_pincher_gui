@@ -1,11 +1,16 @@
 import os
 import rospkg
 import rospy
-import numpy as np
-from numpy import pi
-from std_msgs.msg import String
 
-from sensor_msgs.msg import JointState
+import numpy as np
+import matplotlib.pyplot as plt
+
+from PIL import Image as PIL_Image
+
+from numpy import pi
+
+from std_msgs.msg import String
+from sensor_msgs.msg import JointState,Image
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
 from qt_gui.plugin import Plugin
@@ -48,7 +53,13 @@ class MyPlugin(Plugin):
         self._widget.joint4Button.clicked.connect(self.call_j4)
         self._widget.joint5Button.clicked.connect(self.call_j5)
 
-        self.pub = rospy.Publisher('/joint_trajectory', JointTrajectory, queue_size=10)
+        self.pub = rospy.Publisher('/joint_trajectory', JointTrajectory, queue_size=1)
+        self.pubImg = rospy.Publisher('/image', Image, queue_size=10)
+
+        #msg_img = Image()
+        #msg_img.height = 1
+        #msg_img.width =   1
+        #msg_img.encoding = 'rgb8'      
 
         self.subJointTrajectory =  rospy.Subscriber("/joint_trajectory", JointTrajectory, self.callbackJointTrajectory)
         self.subJointState =     rospy.Subscriber("/dynamixel_workbench/joint_states", JointState, self.callbackJointState)
@@ -110,6 +121,15 @@ class MyPlugin(Plugin):
     def callback_pub(self,select_position):
 
         state = JointTrajectory()
+        print(os.getcwd() )
+        if select_position<=5 and select_position>1:
+            img_path = "/home/jsds/catkin_ws/src/rqt_pincher_gui/resource/imgs/P"+str(select_position)+".png"
+        else:            
+            img_path = "/home/jsds/catkin_ws/src/rqt_pincher_gui/resource/imgs/P1.png"
+        
+        robot_img = np.asarray(PIL_Image.open(img_path))    
+        plt.close()
+
         
         state.header.stamp = rospy.Time.now()
         state.joint_names = ["joint_1","joint_2","joint_3","joint_4","joint_5"]
@@ -121,6 +141,10 @@ class MyPlugin(Plugin):
         point.time_from_start = rospy.Duration(0.5)
         state.points.append(point)
         self.pub.publish(state)
+
+        plt.imshow(robot_img)
+        plt.show(block=False)
+
         print(state.points[0].positions)
         
    
@@ -166,6 +190,21 @@ class MyPlugin(Plugin):
             return P5
         else:
             return PHome  
+        
+if __name__ == '__main__':
+    print(Image())
+    print(os.getcwd() )
+    
+    img_path = "/home/jsds/catkin_ws/src/rqt_pincher_gui/resource/imgs/P1.png"
+    robot_img = np.asarray(PIL_Image.open(img_path))
+    plt.imshow(robot_img)
+    plt.show(block=True)
 
+    rospy.init_node('gui',anonymous=False)
+    try:
+        print("Hl")
+        #plug = MyPlugin()
+    except rospy.ROSInterruptException:
+        pass
         
         
