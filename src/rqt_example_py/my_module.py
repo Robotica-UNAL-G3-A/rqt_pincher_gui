@@ -84,7 +84,7 @@ class MyPlugin(Plugin):
         #print("Hello "+msg.points.pop())
 
         p = msg.points[0].positions
-        q = np.round(np.array(msg.position)*180/pi,2)
+        q = np.round(np.array(p)*180/pi,2)
         print("q "+ str(q))
         #pos = self.inverse_kinematics(q)
         pos = np.array([1,2,3])
