@@ -47,8 +47,10 @@ class MyPlugin(Plugin):
         # Extend the widget with all attributes and children from UI file
         loadUi(ui_file, self._widget)
 
+        # Parameters
         self.Dynamixel_connected = True
-
+        
+        # buttons
         self._widget.joint1Button.clicked.connect(self.call_j1)
         self._widget.joint2Button.clicked.connect(self.call_j2)        
         self._widget.joint3Button.clicked.connect(self.call_j3)
@@ -57,13 +59,15 @@ class MyPlugin(Plugin):
         
         self._widget.pose1Button.clicked.connect(self.pose_t1)
 
+        # publishers
         self.targetPosePub = rospy.Publisher('/target_pincher_pose', PincherPose, queue_size=1)
         
         self.jTrajecPub = rospy.Publisher('/joint_trajectory', JointTrajectory, queue_size=1)
         
+        # subcribers
+        self.subJointState =  rospy.Subscriber("/dynamixel_workbench/joint_states", JointState, self.callbackJointState)
         
-        self.subJointState =     rospy.Subscriber("/dynamixel_workbench/joint_states", JointState, self.callbackJointState)
-        #self.sub_status = rospy.Subscriber('/random_status', String, self.callback_string, queue_size=20)
+        self.realPoseSub = rospy.Subscriber('/real_pose', PincherPose, self.update_pose)
         
         # Give QObjects reasonable names
         self._widget.setObjectName('MyPluginUi')
@@ -76,23 +80,14 @@ class MyPlugin(Plugin):
             self._widget.setWindowTitle(self._widget.windowTitle() + (' (%d)' % context.serial_number()))
         # Add widget to the user interface
         context.add_widget(self._widget)
-    def inverse_kinematics(self,pos,angle):
-        q = np.array([1,2,3])
-        return q
-    
+         
     def callbackJointState(self,msg):
         
         q = np.round(np.array(msg.position)*180/pi,2)
-        pos = self.inverse_kinematics(q)
-
+        
         if self.Dynamixel_connected:    
             self._widget.jointDisplay.setText("qs:"+ str(q))   
-            self._widget.posDisplay.setText("x y z theta")   
                       
-
-    def callback_string(self, msg):
-        self._widget.joint2Display.setText(msg.data)
-    
     def call_j1(self):
         self.callback_pub(1)
     def call_j2(self):
@@ -108,7 +103,7 @@ class MyPlugin(Plugin):
 
         state = JointTrajectory()
         print(os.getcwd() )
-        if select_position<=5 and select_position>1:
+        if select_position <= 5 and select_position > 1:
             img_path = "/home/jsds/catkin_ws/src/rqt_pincher_gui/resource/imgs/P"+str(select_position)+".png"
         else:            
             img_path = "/home/jsds/catkin_ws/src/rqt_pincher_gui/resource/imgs/P1.png"
@@ -152,10 +147,15 @@ class MyPlugin(Plugin):
             
         self.targetPosePub.publish(pose)
         
-    
+    def update_pose(self, PincherPose_msg):
+        position =PincherPose_msg.point
+        self._widget.posDisplay.setText(str(PincherPose_msg)) 
+        print("Pincher Position:" + str(position))
+        
     def shutdown_plugin(self):
         # TODO unregister all publishers here
         self.jTrajecPub.unregister()
+        self.targetPosePub.unregister()
         self.new_pos.disconnect()
         pass
 
