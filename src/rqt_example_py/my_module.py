@@ -9,10 +9,12 @@ from PIL import Image as PIL_Image
 
 from numpy import pi
 
-from std_msgs.msg import String
+# messages
 from sensor_msgs.msg import JointState,Image
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from robotics_lab5.msg import PincherPose
 
+# GUI
 from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
@@ -52,16 +54,14 @@ class MyPlugin(Plugin):
         self._widget.joint3Button.clicked.connect(self.call_j3)
         self._widget.joint4Button.clicked.connect(self.call_j4)
         self._widget.joint5Button.clicked.connect(self.call_j5)
+        
+        self._widget.pose1Button.clicked.connect(self.pose_t1)
 
-        self.pub = rospy.Publisher('/joint_trajectory', JointTrajectory, queue_size=1)
-        self.pubImg = rospy.Publisher('/image', Image, queue_size=10)
-
-        #msg_img = Image()
-        #msg_img.height = 1
-        #msg_img.width =   1
-        #msg_img.encoding = 'rgb8'      
-
-        self.subJointTrajectory =  rospy.Subscriber("/joint_trajectory", JointTrajectory, self.callbackJointTrajectory)
+        self.targetPosePub = rospy.Publisher('/target_pincher_pose', PincherPose, queue_size=1)
+        
+        self.jTrajecPub = rospy.Publisher('/joint_trajectory', JointTrajectory, queue_size=1)
+        
+        
         self.subJointState =     rospy.Subscriber("/dynamixel_workbench/joint_states", JointState, self.callbackJointState)
         #self.sub_status = rospy.Subscriber('/random_status', String, self.callback_string, queue_size=20)
         
@@ -76,9 +76,9 @@ class MyPlugin(Plugin):
             self._widget.setWindowTitle(self._widget.windowTitle() + (' (%d)' % context.serial_number()))
         # Add widget to the user interface
         context.add_widget(self._widget)
-    def inverse_kinematics(self,q):
-        position = np.array([1,2,3])
-        return position 
+    def inverse_kinematics(self,pos,angle):
+        q = np.array([1,2,3])
+        return q
     
     def callbackJointState(self,msg):
         
@@ -88,21 +88,7 @@ class MyPlugin(Plugin):
         if self.Dynamixel_connected:    
             self._widget.jointDisplay.setText("qs:"+ str(q))   
             self._widget.posDisplay.setText("x y z theta")   
-        
-            #self._widget.posDisplay.setText("x: "+str(pos[0])+"  y: "+str(pos[1])+"  z: "+str(pos[2]))   
-        
-    def callbackJointTrajectory(self,msg):
-        #print("Hello "+msg.points.pop())
-
-        p = msg.points[0].positions
-        q = np.round(np.array(p)*180/pi,2)
-        print("q "+ str(q))
-        #pos = self.inverse_kinematics(q)
-        pos = np.array([1,2,3])
-        if not self.Dynamixel_connected:
-            self._widget.jointDisplay.setText("qs:"+ str(q)  ) 
-            #self._widget.posDisplay.setText("x: "+str(pos[0])+"  y: "+str(pos[1])+"  z: "+str(pos[2])) 
-            
+                      
 
     def callback_string(self, msg):
         self._widget.joint2Display.setText(msg.data)
@@ -140,18 +126,36 @@ class MyPlugin(Plugin):
 
         point.time_from_start = rospy.Duration(0.5)
         state.points.append(point)
-        self.pub.publish(state)
+        self.jTrajecPub.publish(state)
 
         plt.imshow(robot_img)
         plt.show(block=False)
 
         print(state.points[0].positions)
+    
+    def pose_t1(self):
+        self.pose_trajectory(1)
+    def pose_t2(self):
+        self.pose_trajectory(2)
+    def pose_t3(self):
+        self.pose_trajectory(3)
         
-   
+    def pose_trajectory (self,idx):
+        if idx ==1:
+            pose = PincherPose()
+            pose.point.x = 100
+            pose.point.y = 200 
+            pose.point.z = 200
+            pose.theta = 0.5
+        else :
+            pass
+            
+        self.targetPosePub.publish(pose)
+        
     
     def shutdown_plugin(self):
         # TODO unregister all publishers here
-        self.pub.unregister()
+        self.jTrajecPub.unregister()
         self.new_pos.disconnect()
         pass
 

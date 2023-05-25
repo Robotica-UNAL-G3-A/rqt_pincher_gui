@@ -1,6 +1,9 @@
 <launch>
-  
-  <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui"/>
+  <arg name="rvizconfig" default="$(find robotics-lab4)/rviz/urdf.rviz" />
+  <arg name="perspective" default="$(find rqt_pincher_gui)/rqt_config/pincher_gui.perspective" />
+
+  <node name="pincher_gui" pkg="rqt_gui" type="rqt_gui" respawn="false" output="screen" args="--perspective-file $(arg perspective) "/>
+
  
 
 </launch>
