@@ -58,6 +58,9 @@ class MyPlugin(Plugin):
         self._widget.joint5Button.clicked.connect(self.call_j5)
         
         self._widget.pose1Button.clicked.connect(self.pose_t1)
+        self._widget.pose2Button.clicked.connect(self.pose_t2)
+        self._widget.pose3Button.clicked.connect(self.pose_t3)
+        self._widget.poselimits.clicked.connect(self.pose_t_limits)
 
         # publishers
         self.targetPosePub = rospy.Publisher('/target_pincher_pose', PincherPose, queue_size=1)
@@ -67,7 +70,7 @@ class MyPlugin(Plugin):
         # subcribers
         self.subJointState =  rospy.Subscriber("/dynamixel_workbench/joint_states", JointState, self.callbackJointState)
         
-        self.realPoseSub = rospy.Subscriber('/real_pose', PincherPose, self.update_pose)
+        self.realPoseSub = rospy.Subscriber('/real_pincher_pose', PincherPose, self.update_pose)
         
         # Give QObjects reasonable names
         self._widget.setObjectName('MyPluginUi')
@@ -101,7 +104,6 @@ class MyPlugin(Plugin):
 
     def callback_pub(self,select_position):
 
-        state = JointTrajectory()
         print(os.getcwd() )
         if select_position <= 5 and select_position > 1:
             img_path = "/home/jsds/catkin_ws/src/rqt_pincher_gui/resource/imgs/P"+str(select_position)+".png"
@@ -111,7 +113,7 @@ class MyPlugin(Plugin):
         robot_img = np.asarray(PIL_Image.open(img_path))    
         plt.close()
 
-        
+        state = JointTrajectory()        
         state.header.stamp = rospy.Time.now()
         state.joint_names = ["joint_1","joint_2","joint_3","joint_4","joint_5"]
         point = JointTrajectoryPoint()
@@ -126,7 +128,6 @@ class MyPlugin(Plugin):
         plt.imshow(robot_img)
         plt.show(block=False)
 
-        print(state.points[0].positions)
     
     def pose_t1(self):
         self.pose_trajectory(1)
@@ -134,23 +135,37 @@ class MyPlugin(Plugin):
         self.pose_trajectory(2)
     def pose_t3(self):
         self.pose_trajectory(3)
+    def pose_t_limits(self):
+        self.pose_trajectory(0)    
         
     def pose_trajectory (self,idx):
-        if idx ==1:
+        if idx == 0:
             pose = PincherPose()
-            pose.point.x = 100
-            pose.point.y = 200 
-            pose.point.z = 200
-            pose.theta = 0.5
+            pose.point.x = 97
+            pose.point.y = 17 
+            pose.point.z = 400
+            pose.theta = -1.15
+
+        elif idx ==1:
+            pose = PincherPose()
+            pose.point.x = -17
+            pose.point.y = 97 
+            pose.point.z = 400
+            pose.theta = -1.15
         else :
-            pass
+            pose = PincherPose()
+            pose.point.x = -17
+            pose.point.y = 57 
+            pose.point.z = 400
+            pose.theta = -1.15
             
         self.targetPosePub.publish(pose)
         
     def update_pose(self, PincherPose_msg):
         position =PincherPose_msg.point
-        self._widget.posDisplay.setText(str(PincherPose_msg)) 
-        print("Pincher Position:" + str(position))
+        vec_pos =[position.x, position.y, position.z, PincherPose_msg.theta]
+        self._widget.posDisplay.setText("xyz:" +  str(np.round(vec_pos,2)) )
+        rospy.loginfo("GUI Position xyz:" +  str(np.round(vec_pos,2) ))
         
     def shutdown_plugin(self):
         # TODO unregister all publishers here

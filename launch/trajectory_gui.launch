@@ -1,6 +1,6 @@
 <launch>
   <arg name="rvizconfig" default="$(find robotics-lab4)/rviz/urdf.rviz" />
-  <arg name="perspective" default="$(find rqt_pincher_gui)/rqt_config/simple.perspective" />
+  <arg name="perspective" default="$(find rqt_pincher_gui)/rqt_config/debug.perspective" />
 
   <node name = "pincher_node" pkg="robotics_lab5" type="pincher.py" output="screen"/>
   
